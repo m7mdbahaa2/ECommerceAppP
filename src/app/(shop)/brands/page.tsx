@@ -9,25 +9,32 @@ interface Brand {
   image?: string;
 }
 
+const fallbackBrands: Brand[] = [
+  { _id: "1", name: "Brand One", image: "/placeholder.png" },
+  { _id: "2", name: "Brand Two", image: "/placeholder.png" },
+  { _id: "3", name: "Brand Three", image: "/placeholder.png" },
+  { _id: "4", name: "Brand Four", image: "/placeholder.png" },
+];
+
 export default async function BrandsPage() {
   let brands: Brand[] = [];
 
   try {
     const token = await getUserToken();
-    if (!token) throw new Error("Not logged in");
-
     const res = await fetch(`${process.env.API_BASE_URL}/api/v1/brands`, {
-      headers: { token },
-      cache: "no-store", // يمنع prerender errors
+      headers: token ? { token } : {},
+      cache: "no-store",
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch brands");
-
-    brands = data.data || [];
+    if (res.ok && data.data) {
+      brands = data.data;
+    } else {
+      brands = fallbackBrands;
+    }
   } catch (error) {
     console.error(error);
-    brands = []; // fallback empty array
+    brands = fallbackBrands;
   }
 
   return (
@@ -50,7 +57,9 @@ export default async function BrandsPage() {
               />
             )}
             <h2 className="font-semibold">{brand.name}</h2>
-            {brand.description && <p className="text-center text-sm">{brand.description}</p>}
+            {brand.description && (
+              <p className="text-center text-sm">{brand.description}</p>
+            )}
           </Link>
         ))}
       </div>
