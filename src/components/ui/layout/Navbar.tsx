@@ -92,6 +92,9 @@ export default function Navbar() {
                   <Button asChild>
                     <Link href="/signup">Sign up</Link>
                   </Button>
+                  <Button>
+                    <Link href="/forgetpassword">Forgot Password</Link>
+                  </Button>
                 </>
               ) : (
                 <div className="flex items-center gap-4">
@@ -125,6 +128,11 @@ export default function Navbar() {
                       <DropdownMenuItem>
                         <Link href="/profile">Profile</Link>
                       </DropdownMenuItem>
+
+                      <DropdownMenuItem>
+                        <Link href="/resetpassword">Reset Password</Link>
+                      </DropdownMenuItem>
+
                       <DropdownMenuItem
                         className="cursor-pointer"
                         onClick={() => signOut({ callbackUrl: "/signin" })}
@@ -175,6 +183,9 @@ export default function Navbar() {
                       </Button>
                       <Button asChild>
                         <Link href="/signup">Sign up</Link>
+                      </Button>
+                      <Button>
+                        <Link href="/forgetpassword">Forgot Password</Link>
                       </Button>
                     </>
                   ) : (

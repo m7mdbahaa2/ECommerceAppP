@@ -14,23 +14,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { formSchema } from "@/schema/login.schema";
-import { LoginFormType } from "@/schema/login.schema";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { loginSchema, LoginType } from "@/schema/login.schema";
+
 
 export default function LoginPage() {
   const router = useRouter();
-  const form = useForm<LoginFormType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginType>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(params: LoginFormType) {
+  async function onSubmit(params: LoginType) {
 
     console.log("====================================");
     console.log(params);
